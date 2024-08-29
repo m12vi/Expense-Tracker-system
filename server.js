@@ -32,7 +32,7 @@ app.get('*',function(req,res){
     res.sendFile(path.join(__dirname,'./client/build/index.html'));
 });
 //port
-const PORT = process.env.PORT || 8080;
+const PORT = 8080 ||process.env.PORT;
 
 //listen server
 app.listen(PORT, () =>{
