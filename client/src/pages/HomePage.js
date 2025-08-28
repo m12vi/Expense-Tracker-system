@@ -2,7 +2,8 @@ import React,{useState,useEffect} from 'react';
 import {Form,Input,Modal,Select,Table,message,DatePicker} from 'antd';
 import {UnorderedListOutlined,AreaChartOutlined,EditOutlined,DeleteOutlined} from'@ant-design/icons'
 import Layout from './../components/Layout/Layout';
-import axios from 'axios';
+//import axios from 'axios';
+import API from '../axiosConfig'
 import Spinner from '../components/Spinner';
 import moment from 'moment';
 import Analytics from '../components/Analytics';
@@ -64,7 +65,8 @@ const HomePage = () => {
     try {
       const user = JSON.parse(localStorage.getItem('user'));
       setLoading(true);
-     const res = await axios.post('/transactions/get-transaction',{
+     //const res = await axios.post('/transactions/get-transaction',{
+     const res = await API.post('/transactions/get-transaction',{
       userid: user._id,
       frequency,
       selectedDate,
@@ -85,7 +87,8 @@ const HomePage = () => {
 const handleDelete = async(record)=>{
   try {
     setLoading(true)
-    await axios.post('/transactions/delete-transaction',{transactionId:record._id})
+    //await axios.post('/transactions/delete-transaction',{transactionId:record._id})
+    await API.post('/transactions/delete-transaction',{transactionId:record._id})
     setLoading(false)
     message.success('Transaction Deleted!')
   } catch (error) {
@@ -101,12 +104,17 @@ const handleDelete = async(record)=>{
       const user = JSON.parse(localStorage.getItem('user'));
       setLoading(true);
       if(editable){
-        await axios.post('/transactions/edit-transaction',{payload:{...values,userId:user._id},transactionId:editable._id});
+        //await axios.post('/transactions/edit-transaction',{payload:{...values,userId:user._id},transactionId:editable._id});
+        await API.post('/transactions/edit-transaction',{
+    payload:{...values,userId:user._id},
+    transactionId:editable._id
+  });
       setLoading(false);
       message.success('Transaction Updated successfully');
         
       }else{
-        await axios.post('/transactions/add-transaction',{...values,userid:user._id});
+        //await axios.post('/transactions/add-transaction',{...values,userid:user._id});
+        await API.post('/transactions/add-transaction',{...values,userid:user._id});
       setLoading(false);
       message.success('Transaction added successfully');
       }
